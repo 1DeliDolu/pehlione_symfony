@@ -95,7 +95,7 @@
 
 					<!-- Add to Cart Form -->
 					<form
-						class="mt-10">
+						method="post" action="{{ path('cart_add', {id: product.id}) }}" class="mt-10">
 						<!-- Quantity -->
 						<div class="mb-6">
 							<label for="quantity" class="block text-sm font-medium text-gray-900">Quantity</label>

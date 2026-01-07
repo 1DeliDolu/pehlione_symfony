@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sepetim - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white">
+		<div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+			<h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Alışveriş Sepeti</h1>
+
+			{% set summary = cart_summary() %}
+			{% set lines = summary.lines %}
+			{% set currency = summary.currency %}
+			{% set subtotal = summary.totalAmount %}
+
+			{% if lines is empty %}
+				<div class="rounded-xl border bg-gray-50 p-8 text-center">
+					<p class="text-lg text-gray-700 mb-4">Sepetiniz boş</p>
+					<a href="{{ path('app_product_index') }}" class="inline-flex items-center justify-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white hover:bg-indigo-700">
+						Alışverişe devam et
+					</a>
+				</div>
+			{% else %}
+				<div
+					class="grid grid-cols-1 gap-12 lg:grid-cols-3">
+					<!-- Cart Items (Left) -->
+					<div class="lg:col-span-2">
+						<div class="space-y-6 border-b border-gray-200 pb-8">
+							{% for line in lines %}
+								{% set p = line.product %}
+
+								<div
+									class="flex gap-6 py-6">
+									<!-- Product Image -->
+									<div class="shrink-0">
+										<div class="w-24 h-32 rounded-md bg-gray-200 flex items-center justify-center">
+											<svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+											</svg>
+										</div>
+									</div>
+
+									<!-- Product Details -->
+									<div class="flex-1">
+										<div class="flex justify-between items-start mb-4">
+											<div>
+												<h3 class="text-lg font-semibold text-gray-900">
+													<a href="{{ path('app_product_show', {id: p.id}) }}" class="hover:text-indigo-600">
+														{{ p.name }}
+													</a>
+												</h3>
+												<p class="text-sm text-gray-600 mt-1">{{ p.category.name }}</p>
+												{% if p.brand %}
+													<p class="text-sm text-gray-600">{{ p.brand }}</p>
+												{% endif %}
+											</div>
+											<p class="text-lg font-semibold text-gray-900">
+												${{ (line.lineTotal / 100)|number_format(2) }}
+											</p>
+										</div>
+
+										<!-- Quantity & Remove -->
+										<div class="flex items-center justify-between">
+											<div class="flex items-center gap-3">
+												<label class="text-sm text-gray-600">Qty</label>
+												<select class="rounded border border-gray-300 px-3 py-1 text-sm">
+													{% for i in range(1, 10) %}
+														<option value="{{ i }}" {% if i == line.qty %} selected {% endif %}>{{ i }}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<form method="post" action="{{ path('cart_remove', {id: p.id}) }}" class="inline">
+												<input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ p.id) }}">
+												<button type="submit" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+													✕
+												</button>
+											</form>
+										</div>
+
+										<!-- Stock Status -->
+										<div class="mt-3">
+											{% if p.stockQuantity > 0 %}
+												<p class="text-xs text-green-600 flex items-center gap-1">
+													<span class="w-2 h-2 bg-green-600 rounded-full"></span>
+													In stock
+												</p>
+											{% else %}
+												<p class="text-xs text-red-600">Out of stock</p>
+											{% endif %}
+										</div>
+
+										<!-- Shipping Info -->
+										<p class="text-xs text-gray-500 mt-2">Ships in 3–4 weeks</p>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+
+						<!-- Continue Shopping -->
+						<div class="mt-8">
+							<a href="{{ path('app_product_index') }}" class="text-base font-medium text-indigo-600 hover:text-indigo-700">
+								← Alışverişe devam et
+							</a>
+						</div>
+					</div>
+
+					<!-- Order Summary (Right) -->
+					<div class="lg:col-span-1">
+						<div class="bg-white rounded-lg">
+							<h2 class="text-xl font-semibold text-gray-900 mb-6">Order summary</h2>
+
+							<div class="space-y-4 border-b border-gray-200 pb-6">
+								<div class="flex justify-between text-sm text-gray-600">
+									<span>Subtotal</span>
+									<span>${{ (subtotal / 100)|number_format(2) }}</span>
+								</div>
+
+								<div class="flex justify-between text-sm text-gray-600">
+									<span>Shipping estimate</span>
+									<span>$5.00</span>
+								</div>
+
+								<div class="flex justify-between text-sm text-gray-600">
+									<span>Tax estimate</span>
+									<span>${{ ((subtotal / 100) * 0.08)|number_format(2) }}</span>
+								</div>
+							</div>
+
+							<div class="flex justify-between items-center pt-6 pb-6 border-b border-gray-200">
+								<span class="text-lg font-semibold text-gray-900">Order total</span>
+								<span class="text-lg font-semibold text-gray-900">
+									${{ ((subtotal / 100) + 5 + ((subtotal / 100) * 0.08))|number_format(2) }}
+								</span>
+							</div>
+
+							<button class="w-full mt-6 bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition">
+								Checkout
+							</button>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

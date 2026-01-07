@@ -1,0 +1,122 @@
+{# Cart drawer component - Session based shopping cart #}
+{% set summary = cart_summary() %}
+{% set lines = summary.lines %}
+{% set currency = summary.currency %}
+{% set subtotal = summary.totalAmount %}
+
+<button command="show-modal" commandfor="drawer" class="relative rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10">
+	<svg class="inline-block h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+	</svg>
+	{% if cart_count > 0 %}
+		<span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-indigo-600 rounded-full">{{ cart_count }}</span>
+	{% endif %}
+</button>
+
+<el-dialog>
+	<dialog id="drawer" aria-labelledby="drawer-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
+		<el-dialog-backdrop class="absolute inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"></el-dialog-backdrop>
+
+		<div tabindex="0" class="absolute inset-0 pl-10 focus:outline-none sm:pl-16">
+			<el-dialog-panel class="ml-auto block size-full max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700">
+				<div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
+
+					<div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+						<div class="flex items-start justify-between">
+							<h2 id="drawer-title" class="text-lg font-medium text-gray-900">Sepet</h2>
+							<div class="ml-3 flex h-7 items-center">
+								<button type="button" command="close" commandfor="drawer" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+									<span class="absolute -inset-0.5"></span>
+									<span class="sr-only">Close panel</span>
+									<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="size-6">
+										<path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+								</button>
+							</div>
+						</div>
+
+						<div class="mt-8">
+							<div class="flow-root">
+								{% if lines is empty %}
+									<div class="rounded-xl border bg-gray-50 p-4 text-sm text-gray-700">
+										Sepetiniz boş.
+										<a class="underline text-indigo-600 hover:text-indigo-700" href="{{ path('app_product_index') }}">Ürünlere göz atın</a>.
+									</div>
+								{% else %}
+									<ul role="list" class="-my-6 divide-y divide-gray-200">
+										{% for line in lines %}
+											{% set p = line.product %}
+
+											<li class="flex py-6">
+												<div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-50 flex items-center justify-center">
+													<svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+													</svg>
+												</div>
+
+												<div class="ml-4 flex flex-1 flex-col">
+													<div>
+														<div class="flex justify-between text-base font-medium text-gray-900 gap-4">
+															<h3 class="min-w-0">
+																<a class="hover:underline text-indigo-600 hover:text-indigo-700" href="{{ path('app_product_show', {id: p.id}) }}">
+																	{{ p.name }}
+																</a>
+															</h3>
+															<p class="whitespace-nowrap">
+																{{ (line.lineTotal / 100)|number_format(2, ',', '.') }}
+																{{ currency }}
+															</p>
+														</div>
+														<p class="mt-1 text-sm text-gray-500">{{ p.category.name }}</p>
+													</div>
+
+													<div class="flex flex-1 items-end justify-between text-sm">
+														<p class="text-gray-500">Qty
+															{{ line.qty }}</p>
+
+														<div class="flex">
+															<form method="post" action="{{ path('cart_remove', {id: p.id}) }}" class="inline">
+																<input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ p.id) }}">
+																<button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500">
+																	Sil
+																</button>
+															</form>
+														</div>
+													</div>
+												</div>
+											</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+
+					<div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+						<div class="flex justify-between text-base font-medium text-gray-900">
+							<p>Ara Toplam</p>
+							<p>{{ (subtotal / 100)|number_format(2, ',', '.') }}
+								{{ currency }}</p>
+						</div>
+						<p class="mt-0.5 text-sm text-gray-500">Kargo ve vergiler checkout'ta hesaplanacaktır.</p>
+
+						<div class="mt-6">
+							<a href="{{ path('cart_show') }}" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"></a>
+						</div>
+
+						<div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+							<p>
+								veya
+								<a href="{{ path('app_product_index') }}" command="close" commandfor="drawer" class="font-medium text-indigo-600 hover:text-indigo-500">
+									Alışverişe devam et
+									<span aria-hidden="true">→</span>
+								</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+			</el-dialog-panel>
+		</div>
+	</dialog>
+</el-dialog>
