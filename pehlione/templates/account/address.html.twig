@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Address - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+		<div
+			class="mx-auto max-w-2xl">
+			<!-- Header -->
+			<div class="mb-8">
+				<a href="{{ path('app_account_profile') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+					← Back to Profile
+				</a>
+				<h1 class="text-3xl font-bold tracking-tight text-gray-900 mt-4">Shipping Address</h1>
+			</div>
+
+			<!-- Success Message -->
+			{% if app.flashes('success') %}
+				<div class="mb-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+					<svg class="inline-block h-5 w-5 mr-2" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+					</svg>
+					{% for message in app.flashes('success') %}
+						{{ message }}
+					{% endfor %}
+				</div>
+			{% endif %}
+
+			<!-- Address Form Card -->
+			<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+				{% if address.id %}
+					<div class="mb-6 pb-6 border-b border-gray-200">
+						<p class="text-sm text-gray-600">Last updated:
+							{{ address.updatedAt|date('M d, Y H:i') }}</p>
+					</div>
+				{% endif %}
+
+				<form method="post" class="space-y-6">
+					<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+						<div>
+							{{ form_label(form.firstName, 'First Name') }}
+							{{ form_widget(form.firstName, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.firstName) }}
+						</div>
+
+						<div>
+							{{ form_label(form.lastName, 'Last Name') }}
+							{{ form_widget(form.lastName, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.lastName) }}
+						</div>
+
+						<div>
+							{{ form_label(form.phone, 'Phone (Optional)') }}
+							{{ form_widget(form.phone, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.phone) }}
+						</div>
+
+						<div>
+							{{ form_label(form.countryCode, 'Country Code') }}
+							{{ form_widget(form.countryCode, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500', 'maxlength': 3, 'placeholder': 'e.g. DE'}}) }}
+							{{ form_errors(form.countryCode) }}
+						</div>
+
+						<div class="sm:col-span-2">
+							{{ form_label(form.strasse, 'Street') }}
+							{{ form_widget(form.strasse, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.strasse) }}
+						</div>
+
+						<div>
+							{{ form_label(form.hausnummer, 'House Number') }}
+							{{ form_widget(form.hausnummer, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.hausnummer) }}
+						</div>
+
+						<div>
+							{{ form_label(form.postalCode, 'Postal Code') }}
+							{{ form_widget(form.postalCode, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.postalCode) }}
+						</div>
+
+						<div>
+							{{ form_label(form.city, 'City') }}
+							{{ form_widget(form.city, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.city) }}
+						</div>
+
+						<div>
+							{{ form_label(form.region, 'Region/State') }}
+							{{ form_widget(form.region, {'attr': {'class': 'mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
+							{{ form_errors(form.region) }}
+						</div>
+					</div>
+
+					{{ form_rest(form) }}
+
+					<div class="flex gap-4 pt-6 border-t border-gray-200">
+						<button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+							<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+							</svg>
+							Save Address
+						</button>
+						<a href="{{ path('app_account_profile') }}" class="inline-flex items-center px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+							Cancel
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

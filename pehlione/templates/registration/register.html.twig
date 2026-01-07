@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+		<div class="w-full max-w-md">
+			<div class="rounded-2xl border bg-white p-6 shadow-sm">
+				<div class="mb-6">
+					<div class="text-sm text-gray-500">PehliONE</div>
+					<h1 class="text-2xl font-semibold text-gray-900">Create Account</h1>
+					<p class="mt-1 text-sm text-gray-600">Join us to get started</p>
+				</div>
+
+				{% if app.flashes('error') %}
+					<div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+						{% for message in app.flashes('error') %}
+							{{ message }}
+						{% endfor %}
+					</div>
+				{% endif %}
+
+				<form method="post" class="space-y-5">
+					<div>
+						<label class="block text-sm font-medium text-gray-900" for="{{ registrationForm.email.vars.id }}">
+							Email
+						</label>
+						{{ form_widget(registrationForm.email, {
+            'attr': {
+              'class': 'mt-2 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'
+            }
+          }) }}
+						{% if registrationForm.email.vars.errors %}
+							<div class="mt-1 text-sm text-red-600">
+								{% for error in registrationForm.email.vars.errors %}
+									{{ error.message }}
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+
+					<div>
+						<label class="block text-sm font-medium text-gray-900" for="{{ registrationForm.plainPassword.vars.id }}">
+							Password
+						</label>
+						{{ form_widget(registrationForm.plainPassword, {
+            'attr': {
+              'class': 'mt-2 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'
+            }
+          }) }}
+						{% if registrationForm.plainPassword.vars.errors %}
+							<div class="mt-1 text-sm text-red-600">
+								{% for error in registrationForm.plainPassword.vars.errors %}
+									{{ error.message }}
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+
+					<div>
+						<label class="flex items-center">
+							{{ form_widget(registrationForm.agreeTerms, {
+              'attr': {
+                'class': 'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+              }
+            }) }}
+							<span class="ml-2 text-sm text-gray-700">
+								{{ form_label(registrationForm.agreeTerms) }}
+							</span>
+						</label>
+						{% if registrationForm.agreeTerms.vars.errors %}
+							<div class="mt-1 text-sm text-red-600">
+								{% for error in registrationForm.agreeTerms.vars.errors %}
+									{{ error.message }}
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+
+					{{ form_rest(registrationForm) }}
+
+					<button class="w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="submit">
+						Create Account
+					</button>
+				</form>
+
+				<p class="mt-6 text-center text-sm text-gray-600">
+					Already have an account?
+					<a href="{{ path('app_login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+						Sign in
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

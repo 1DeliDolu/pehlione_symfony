@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+		<div
+			class="mx-auto max-w-2xl">
+			<!-- Header -->
+			<div class="mb-8">
+				<a href="{{ path('app_product_index') }}" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+					← Back to Products
+				</a>
+				<h1 class="text-3xl font-bold tracking-tight text-gray-900 mt-4">My Profile</h1>
+			</div>
+
+			<!-- Profile Card -->
+			<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+				<div
+					class="grid grid-cols-1 gap-8">
+					<!-- Personal Information -->
+					<div>
+						<h2 class="text-lg font-semibold text-gray-900 mb-6">Personal Information</h2>
+						<dl class="space-y-6">
+							<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+								<dt class="text-sm font-medium text-gray-500">Email Address</dt>
+								<dd class="mt-1 sm:mt-0 text-sm text-gray-900 font-mono">{{ user.email }}</dd>
+							</div>
+							<div class="border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+								<dt class="text-sm font-medium text-gray-500">Member Since</dt>
+								<dd class="mt-1 sm:mt-0 text-sm text-gray-900">
+									{% if user.createdAt %}
+										{{ user.createdAt|date('M d, Y') }}
+									{% else %}
+										N/A
+									{% endif %}
+								</dd>
+							</div>
+						</dl>
+					</div>
+
+					<!-- Account Settings -->
+					<div class="border-t border-gray-200 pt-8">
+						<h2 class="text-lg font-semibold text-gray-900 mb-6">Account Settings</h2>
+						<div class="space-y-4">
+							<a href="#" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+								<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+								</svg>
+								Change Password
+							</a>
+						</div>
+					</div>
+
+					<!-- Addresses -->
+					<div class="border-t border-gray-200 pt-8">
+						<h2 class="text-lg font-semibold text-gray-900 mb-6">Addresses</h2>
+						<div class="space-y-4">
+							<a href="{{ path('app_account_address') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+								<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+								</svg>
+								Manage Addresses
+							</a>
+						</div>
+					</div>
+
+					<!-- Orders -->
+					<div class="border-t border-gray-200 pt-8">
+						<h2 class="text-lg font-semibold text-gray-900 mb-6">Orders</h2>
+						<div class="space-y-4">
+							<a href="#" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
+								<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+								</svg>
+								View Orders
+							</a>
+						</div>
+					</div>
+
+					<!-- Danger Zone -->
+					<div class="border-t border-gray-200 pt-8">
+						<h2 class="text-lg font-semibold text-gray-900 mb-6 text-red-600">Danger Zone</h2>
+						<div class="space-y-4">
+							<button class="inline-flex items-center px-4 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50">
+								<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+								</svg>
+								Delete Account
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
