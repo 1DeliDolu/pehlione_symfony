@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
@@ -19,6 +20,9 @@ class Product
 
     #[ORM\Column(length: 220)]
     private ?string $slug = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $brand = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -36,7 +40,7 @@ class Product
     private ?int $stockQuantity = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $creatAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -70,6 +74,18 @@ class Product
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): static
+    {
+        $this->brand = $brand;
 
         return $this;
     }
@@ -134,14 +150,14 @@ class Product
         return $this;
     }
 
-    public function getCreatAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->creatAt;
+        return $this->createdAt;
     }
 
-    public function setCreatAt(\DateTimeImmutable $creatAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->creatAt = $creatAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -168,5 +184,18 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt ??= new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

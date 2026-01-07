@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ product.name }}
+	- Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white">
+		<div
+			class="pt-6">
+			<!-- Breadcrumb -->
+			<nav aria-label="Breadcrumb">
+				<ol role="list" class="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+					<li>
+						<div class="flex items-center">
+							<a href="{{ path('app_product_index') }}" class="mr-2 text-sm font-medium text-gray-900">Products</a>
+							<svg viewbox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
+								<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z"/>
+							</svg>
+						</div>
+					</li>
+					<li>
+						<div class="flex items-center">
+							<a href="{{ path('app_product_index', {'category': product.category.id}) }}" class="mr-2 text-sm font-medium text-gray-900">{{ product.category.name }}</a>
+							<svg viewbox="0 0 16 20" width="16" height="20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
+								<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z"/>
+							</svg>
+						</div>
+					</li>
+					<li class="text-sm">
+						<a aria-current="page" class="font-medium text-gray-500">{{ product.name }}</a>
+					</li>
+				</ol>
+			</nav>
+
+			<!-- Image gallery -->
+			<div
+				class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8">
+				<!-- Main image placeholder -->
+				<div class="row-span-2 aspect-3/4 w-full rounded-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+					<svg class="h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+					</svg>
+				</div>
+				<div class="col-start-2 aspect-3/2 w-full rounded-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+					<svg class="h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+					</svg>
+				</div>
+				<div class="col-start-2 row-start-2 aspect-3/2 w-full rounded-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+					<svg class="h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+					</svg>
+				</div>
+				<div class="row-span-2 aspect-4/5 w-full rounded-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+					<svg class="h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+					</svg>
+				</div>
+			</div>
+
+			<!-- Product info -->
+			<div class="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
+				<div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+					<h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ product.name }}</h1>
+					<p class="mt-2 text-lg text-indigo-600 font-semibold">{{ product.brand }}</p>
+				</div>
+
+				<!-- Options Panel -->
+				<div class="mt-4 lg:row-span-3 lg:mt-0">
+					<h2 class="sr-only">Product information</h2>
+
+					<!-- Price -->
+					<p class="text-3xl font-bold tracking-tight text-gray-900">€{{ (product.priceAmount / 100)|number_format(2, '.', ',') }}</p>
+
+					<!-- Stock Status -->
+					<div class="mt-6">
+						{% if product.stockQuantity > 10 %}
+							<span class="inline-flex items-center rounded-md bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
+								In Stock ({{ product.stockQuantity }}
+								available)
+							</span>
+						{% elseif product.stockQuantity > 0 %}
+							<span class="inline-flex items-center rounded-md bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
+								Low Stock ({{ product.stockQuantity }}
+								left)
+							</span>
+						{% else %}
+							<span class="inline-flex items-center rounded-md bg-red-100 px-3 py-1 text-sm font-medium text-red-800">
+								Out of Stock
+							</span>
+						{% endif %}
+					</div>
+
+					<!-- Add to Cart Form -->
+					<form
+						class="mt-10">
+						<!-- Quantity -->
+						<div class="mb-6">
+							<label for="quantity" class="block text-sm font-medium text-gray-900">Quantity</label>
+							<div class="mt-2 flex items-center gap-3">
+								<button type="button" class="rounded-md border border-gray-300 p-2 text-gray-500 hover:bg-gray-50">
+									<span class="text-lg">−</span>
+								</button>
+								<input type="number" id="quantity" name="quantity" min="1" max="{{ product.stockQuantity }}" value="1" class="w-16 rounded-md border border-gray-300 px-3 py-2 text-center text-gray-900">
+								<button type="button" class="rounded-md border border-gray-300 p-2 text-gray-500 hover:bg-gray-50">
+									<span class="text-lg">+</span>
+								</button>
+							</div>
+						</div>
+
+						<!-- Add to Cart Button -->
+						<button type="submit" class="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+							Add to Cart
+						</button>
+
+						<!-- Wishlist Button -->
+						<button type="button" class="mt-4 w-full flex items-center justify-center rounded-md border border-gray-300 px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+							<svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+							</svg>
+							Add to Wishlist
+						</button>
+					</form>
+				</div>
+
+				<!-- Description Section -->
+				<div
+					class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
+					<!-- Description -->
+					<div>
+						<h3 class="text-lg font-medium text-gray-900 mb-4">Description</h3>
+						<div class="space-y-6">
+							{% if product.description %}
+								<p class="text-base text-gray-600">{{ product.description }}</p>
+							{% endif %}
+						</div>
+					</div>
+
+					<!-- Category & Brand Info -->
+					<div class="mt-10 grid grid-cols-2 gap-8">
+						<div>
+							<h3 class="text-sm font-medium text-gray-900">Category</h3>
+							<p class="mt-2 text-base text-gray-600">{{ product.category.name }}</p>
+						</div>
+						<div>
+							<h3 class="text-sm font-medium text-gray-900">Brand</h3>
+							<p class="mt-2 text-base text-gray-600">{{ product.brand }}</p>
+						</div>
+					</div>
+
+					<!-- Product Details -->
+					<div class="mt-10">
+						<h3 class="text-sm font-medium text-gray-900">Product Details</h3>
+						<div class="mt-4">
+							<dl class="divide-y divide-gray-200">
+								<div class="flex py-4 text-sm">
+									<dt class="font-medium text-gray-900">SKU</dt>
+									<dd class="ml-auto text-gray-600">#{{ product.id }}</dd>
+								</div>
+								<div class="flex py-4 text-sm">
+									<dt class="font-medium text-gray-900">Currency</dt>
+									<dd class="ml-auto text-gray-600">{{ product.currency }}</dd>
+								</div>
+								<div class="flex py-4 text-sm">
+									<dt class="font-medium text-gray-900">Stock Quantity</dt>
+									<dd class="ml-auto text-gray-600">{{ product.stockQuantity }}
+										units</dd>
+								</div>
+								<div class="flex py-4 text-sm">
+									<dt class="font-medium text-gray-900">Created At</dt>
+									<dd class="ml-auto text-gray-600">{{ product.createdAt ? product.createdAt|date('Y-m-d H:i') : 'N/A' }}</dd>
+								</div>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Action Buttons -->
+			<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 pb-16">
+				<div class="flex gap-4">
+					<a href="{{ path('app_product_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+						Back to Products
+					</a>
+					{% if is_granted('ROLE_ADMIN') or app.user %}
+						<a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+							Edit Product
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -19,44 +19,44 @@
 
 				<!-- Desktop Menu -->
 				<div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center">
-					<a href="{{ path('app_category_index') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-						Categories
-					</a>
-					<a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-						About
-					</a>
-					<a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-						Contact
-					</a>
+				<a href="{{ path('app_product_index') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
+					Products
+				</a>
+				<a href="{{ path('app_category_index') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
+					Categories
+				</a>
+				<a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
+					About
+				</a>
+				<a href="#" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">
+					Contact
+				</a>
+			</div>
+			<div
+				class="ml-auto flex items-center gap-4">
+				<!-- Desktop Links -->
+				<div class="hidden lg:flex lg:items-center lg:space-x-6">
+					<a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Sign in</a>
+					<span aria-hidden="true" class="h-6 w-px bg-gray-200"></span>
+					<a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Create account</a>
 				</div>
 
-				<!-- Right Side Actions -->
-				<div
-					class="ml-auto flex items-center gap-4">
-					<!-- Desktop Links -->
-					<div class="hidden lg:flex lg:items-center lg:space-x-6">
-						<a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Sign in</a>
-						<span aria-hidden="true" class="h-6 w-px bg-gray-200"></span>
-						<a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-900">Create account</a>
-					</div>
+				<!-- Search Icon -->
+				<button type="button" class="p-2 text-gray-400 hover:text-gray-500">
+					<span class="sr-only">Search</span>
+					<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6">
+						<path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
 
-					<!-- Search Icon -->
-					<button type="button" class="p-2 text-gray-400 hover:text-gray-500">
-						<span class="sr-only">Search</span>
-						<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6">
-							<path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" stroke-linecap="round" stroke-linejoin="round"/>
-						</svg>
-					</button>
-
-					<!-- Mobile Menu Button -->
-					<button type="button" class="lg:hidden rounded-md p-2 text-gray-400">
-						<span class="sr-only">Open menu</span>
-						<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6">
-							<path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"/>
-						</svg>
-					</button>
-				</div>
+				<!-- Mobile Menu Button -->
+				<button type="button" class="lg:hidden rounded-md p-2 text-gray-400">
+					<span class="sr-only">Open menu</span>
+					<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6">
+						<path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
 			</div>
 		</div>
-	</nav>
-</header>
+	</div>
+</nav></header>

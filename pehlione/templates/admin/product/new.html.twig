@@ -1,0 +1,19 @@
+{% extends 'admin/_layout.html.twig' %}
+{% block title %}Yeni Ürün
+{% endblock %}
+
+{% block admin_content %}
+	<div class="flex items-center justify-between gap-4">
+		<div>
+			<h1 class="text-2xl font-semibold">Yeni Ürün</h1>
+			<p class="mt-1 text-sm text-gray-600">Yeni bir ürün oluşturun.</p>
+		</div>
+		<a href="{{ path('admin_product_index') }}" class="rounded-xl border bg-white px-4 py-2.5 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+			← Listeye dön
+		</a>
+	</div>
+
+	<div class="mt-6 rounded-2xl border bg-white p-6">
+		{{ include('admin/product/_form.html.twig', { button_label: 'Kaydet' }) }}
+	</div>
+{% endblock %}

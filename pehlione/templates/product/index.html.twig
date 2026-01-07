@@ -1,0 +1,249 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Products - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white">
+		<div
+			class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+			<!-- Page Header -->
+			<div class="pb-6 border-b border-gray-200">
+				<h1 class="text-3xl font-bold tracking-tight text-gray-900">Products</h1>
+				<p class="mt-2 text-sm text-gray-500">Explore our collection of premium products</p>
+			</div>
+
+			<!-- Filters and Products Grid -->
+			<div
+				class="py-8 grid grid-cols-1 gap-8 lg:grid-cols-4">
+				<!-- Left Sidebar - Filters -->
+				<div class="lg:col-span-1">
+					<div
+						class="space-y-6">
+						<!-- Category Filter -->
+						<div class="border-b border-gray-200 pb-6">
+							<h3 class="text-lg font-semibold text-gray-900 mb-4">Category</h3>
+							<form class="filter-form space-y-3" data-type="category">
+								<input type="hidden" name="sort" value="{{ sortBy }}">
+								<input type="hidden" name="min_price" value="{{ minPrice }}">
+								<input type="hidden" name="max_price" value="{{ maxPrice }}">
+
+								<label class="flex items-center">
+									<input type="radio" name="category" value="all" class="h-4 w-4 border-gray-300 text-indigo-600" {% if not selectedCategory or selectedCategory == 'all' %} checked {% endif %}>
+									<span class="ml-3 text-sm text-gray-700">All Products</span>
+								</label>
+
+								{% for category in categories %}
+									<label class="flex items-center">
+										<input type="radio" name="category" value="{{ category.id }}" class="h-4 w-4 border-gray-300 text-indigo-600" {% if selectedCategory == category.id ~ '' %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">{{ category.name }}</span>
+									</label>
+								{% endfor %}
+							</form>
+						</div>
+
+						<!-- Price Filter -->
+						<div class="border-b border-gray-200 pb-6">
+							<h3 class="text-lg font-semibold text-gray-900 mb-4">Price Range</h3>
+							<form class="filter-form space-y-3" data-type="price">
+								<input type="hidden" name="category" value="{{ selectedCategory }}">
+								<input type="hidden" name="brand" value="{{ selectedBrand }}">
+								<input type="hidden" name="sort" value="{{ sortBy }}">
+
+								<div class="flex gap-2">
+									<input type="number" name="min_price" placeholder="Min" value="{{ minPrice }}" class="w-1/2 px-3 py-2 border border-gray-300 rounded-md text-sm">
+									<input type="number" name="max_price" placeholder="Max" value="{{ maxPrice }}" class="w-1/2 px-3 py-2 border border-gray-300 rounded-md text-sm">
+								</div>
+								<button type="submit" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+									Apply
+								</button>
+							</form>
+						</div>
+
+						<!-- Brand Filter -->
+						<div class="border-b border-gray-200 pb-6">
+							<h3 class="text-lg font-semibold text-gray-900 mb-4">Brand</h3>
+							<form class="filter-form space-y-3" data-type="brand">
+								<input type="hidden" name="category" value="{{ selectedCategory }}">
+								<input type="hidden" name="min_price" value="{{ minPrice }}">
+								<input type="hidden" name="max_price" value="{{ maxPrice }}">
+								<input type="hidden" name="sort" value="{{ sortBy }}">
+
+								<label class="flex items-center">
+									<input type="radio" name="brand" value="all" class="h-4 w-4 border-gray-300 text-indigo-600" {% if not selectedBrand or selectedBrand == 'all' %} checked {% endif %}>
+									<span class="ml-3 text-sm text-gray-700">All Brands</span>
+								</label>
+
+								{% for brand in brands %}
+									<label class="flex items-center">
+										<input type="radio" name="brand" value="{{ brand }}" class="h-4 w-4 border-gray-300 text-indigo-600" {% if selectedBrand == brand %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">{{ brand }}</span>
+									</label>
+								{% endfor %}
+								<h3 class="text-lg font-semibold text-gray-900 mb-4">Sort By</h3>
+								<form class="filter-form space-y-3" data-type="sort">
+									<input type="hidden" name="category" value="{{ selectedCategory }}">
+									<input type="hidden" name="min_price" value="{{ minPrice }}">
+									<input type="hidden" name="max_price" value="{{ maxPrice }}">
+
+									<label class="flex items-center">
+										<input type="radio" name="sort" value="newest" class="h-4 w-4 border-gray-300 text-indigo-600" {% if sortBy == 'newest' %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">Newest</span>
+									</label>
+									<label class="flex items-center">
+										<input type="radio" name="sort" value="price-asc" class="h-4 w-4 border-gray-300 text-indigo-600" {% if sortBy == 'price-asc' %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">Price: Low to High</span>
+									</label>
+									<label class="flex items-center">
+										<input type="radio" name="sort" value="price-desc" class="h-4 w-4 border-gray-300 text-indigo-600" {% if sortBy == 'price-desc' %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">Price: High to Low</span>
+									</label>
+									<label class="flex items-center">
+										<input type="radio" name="sort" value="name" class="h-4 w-4 border-gray-300 text-indigo-600" {% if sortBy == 'name' %} checked {% endif %}>
+										<span class="ml-3 text-sm text-gray-700">Name (A-Z)</span>
+									</label>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- Right Side - Products Grid -->
+					<div
+						class="lg:col-span-3">
+						<!-- Loading Spinner -->
+						<div id="loadingSpinner" class="hidden flex justify-center items-center py-12">
+							<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+						</div>
+
+						<!-- Products Container -->
+						<div id="productsContainer">
+							{% if products is not empty %}
+								<div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+									{% for product in products %}
+										<a href="{{ path('app_product_show', {'id': product.id}) }}" class="group block hover:no-underline">
+											<div class="group relative">
+												<div class="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-64 flex items-center justify-center overflow-hidden">
+													<svg class="h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+													</svg>
+												</div>
+												<div class="mt-4 space-y-2">
+													<h3 class="text-sm font-semibold text-gray-900">
+														{{ product.name }}
+													</h3>
+													<p class="text-xs text-indigo-600 font-medium">
+														{{ product.brand }}
+													</p>
+													<p class="text-xs text-gray-500">
+														{{ product.category.name }}
+													</p>
+													{% if product.description %}
+														<p class="text-xs text-gray-600 line-clamp-2">
+															{{ product.description }}
+														</p>
+													{% endif %}
+													<div class="flex justify-between items-end pt-2">
+														<p class="text-lg font-bold text-gray-900">
+															€{{ (product.priceAmount / 100)|number_format(2, '.', ',') }}
+														</p>
+														<span class="inline-block px-2 py-1 text-xs font-medium
+																																																																																																	{% if product.stockQuantity > 10 %}
+																																																																																																		bg-green-100 text-green-800
+																																																																																																	{% elseif product.stockQuantity > 0 %}
+																																																																																																		bg-yellow-100 text-yellow-800
+																																																																																																	{% else %}
+																																																																																																		bg-red-100 text-red-800
+																																																																																																	{% endif %}">
+															{% if product.stockQuantity > 0 %}
+																{{ product.stockQuantity }}
+																in stock
+															{% else %}
+																Out of stock
+															{% endif %}
+														</span>
+													</div>
+												</div>
+											</div>
+										</a>
+									{% endfor %}
+								</div>
+							{% else %}
+								<div class="py-12 text-center">
+									<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+									</svg>
+									<h3 class="mt-2 text-sm font-medium text-gray-900">No products found</h3>
+									<p class="mt-1 text-sm text-gray-500">Try adjusting your filters.</p>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+const filterForms = document.querySelectorAll('.filter-form');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const productsContainer = document.getElementById('productsContainer');
+
+filterForms.forEach(form => { // Handle radio button changes
+const inputs = form.querySelectorAll('input[type="radio"], input[type="number"], button[type="submit"]');
+inputs.forEach(input => {
+input.addEventListener('change', submitFilters);
+});
+
+// Handle submit button
+form.addEventListener('submit', function (e) {
+e.preventDefault();
+submitFilters();
+});
+});
+
+function submitFilters() {
+const params = new URLSearchParams();
+
+// Collect all form values
+filterForms.forEach(form => {
+const formData = new FormData(form);
+for (let [key, value] of formData) {
+if (value) {
+params.set(key, value);
+}
+}
+});
+
+// Show loading
+loadingSpinner.classList.remove('hidden');
+productsContainer.style.opacity = '0.5';
+productsContainer.style.pointerEvents = 'none';
+
+// Make AJAX request
+fetch('{{ path('app_product_index') }}?' + params.toString(), {
+headers: {
+'X-Requested-With': 'XMLHttpRequest'
+}
+}).then(response => response.text()).then(html => { // Parse response
+const parser = new DOMParser();
+const doc = parser.parseFromString(html, 'text/html');
+const newContainer = doc.getElementById('productsContainer');
+
+if (newContainer) { // Update products
+productsContainer.innerHTML = newContainer.innerHTML;
+
+// Update URL
+window.history.replaceState({}, '', '{{ path('app_product_index') }}?' + params.toString());
+}
+}).catch(error => {
+console.error('AJAX Error:', error);
+alert('Error loading products. Please try again.');
+}). finally(() => {
+loadingSpinner.classList.add('hidden');
+productsContainer.style.opacity = '1';
+productsContainer.style.pointerEvents = 'auto';
+});
+}
+});
+		</script>
+	{% endblock %}

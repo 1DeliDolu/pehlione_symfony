@@ -1,0 +1,36 @@
+{% extends 'admin/_layout.html.twig' %}
+{% block title %}Ürün Düzenle
+{% endblock %}
+
+{% block admin_content %}
+	<div class="flex items-center justify-between gap-4">
+		<div>
+			<h1 class="text-2xl font-semibold">Ürün Düzenle</h1>
+			<p class="mt-1 text-sm text-gray-600">Ürün bilgilerini güncelleyin.</p>
+		</div>
+
+		<div class="flex items-center gap-2">
+			<a href="{{ path('admin_product_show', {'id': product.id}) }}" class="rounded-xl border bg-white px-4 py-2.5 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+				Görüntüle
+			</a>
+			<a href="{{ path('admin_product_index') }}" class="rounded-xl border bg-white px-4 py-2.5 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+				Liste
+			</a>
+		</div>
+	</div>
+
+	<div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+		<div class="lg:col-span-8 rounded-2xl border bg-white p-6">
+			{{ include('admin/product/_form.html.twig', { button_label: 'Güncelle' }) }}
+		</div>
+
+		<aside class="lg:col-span-4 rounded-2xl border bg-white p-6">
+			<div class="text-sm font-medium text-gray-900">Tehlikeli Alan</div>
+			<p class="mt-1 text-sm text-gray-600">Bu ürünü silmek geri alınamaz.</p>
+
+			<div class="mt-4">
+				{{ include('admin/product/_delete_form.html.twig') }}
+			</div>
+		</aside>
+	</div>
+{% endblock %}
