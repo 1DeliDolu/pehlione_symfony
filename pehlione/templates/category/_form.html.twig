@@ -1,0 +1,33 @@
+<div class="space-y-6">
+	{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+	{% for child in form %}
+		{% if child.vars.block_prefixes[1] == 'hidden' %}
+			{{ form_widget(child) }}
+		{% else %}
+			<div>
+				{{ form_label(child) }}
+				{% if 'textarea' in child.vars.block_prefixes %}
+					{{ form_widget(child, {'attr': {'class': 'mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'}}) }}
+				{% else %}
+					{{ form_widget(child, {'attr': {'class': 'mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'}}) }}
+				{% endif %}
+				{{ form_errors(child) }}
+			</div>
+		{% endif %}
+	{% endfor %}
+
+	<div class="flex items-center gap-4">
+		<button type="submit" class="inline-flex items-center rounded-md bg-blue-600 px-6 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition">
+			<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+			</svg>
+			{{ button_label|default('Save') }}
+		</button>
+		<a href="{{ path('app_category_index') }}" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-6 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+			Cancel
+		</a>
+	</div>
+
+	{{ form_end(form) }}
+</div>

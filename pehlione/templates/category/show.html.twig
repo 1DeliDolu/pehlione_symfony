@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ category.name }}
+	- Category
+{% endblock %}
+
+{% block body %}
+	<div class="min-h-screen bg-gray-50">
+		<div
+			class="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
+			<!-- Header -->
+			<div class="mb-8">
+				<a href="{{ path('app_category_index') }}" class="inline-flex items-center text-blue-600 hover:text-blue-900 transition">
+					<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+					</svg>
+					Back to list
+				</a>
+			</div>
+
+			<!-- Card -->
+			<div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+				<div class="border-b border-gray-200 px-6 py-4 sm:px-8">
+					<h1 class="text-2xl font-bold text-gray-900">{{ category.name }}</h1>
+				</div>
+
+				<!-- Details -->
+				<dl class="divide-y divide-gray-200">
+					<div class="px-6 py-4 sm:px-8 sm:grid sm:grid-cols-3 sm:gap-4">
+						<dt class="text-sm font-medium text-gray-700">ID</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ category.id }}</dd>
+					</div>
+					<div class="px-6 py-4 sm:px-8 sm:grid sm:grid-cols-3 sm:gap-4">
+						<dt class="text-sm font-medium text-gray-700">Slug</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+							<code class="rounded bg-gray-100 px-2 py-1">{{ category.slug }}</code>
+						</dd>
+					</div>
+					{% if category.description %}
+						<div class="px-6 py-4 sm:px-8 sm:grid sm:grid-cols-3 sm:gap-4">
+							<dt class="text-sm font-medium text-gray-700">Description</dt>
+							<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ category.description }}</dd>
+						</div>
+					{% endif %}
+					<div class="px-6 py-4 sm:px-8 sm:grid sm:grid-cols-3 sm:gap-4">
+						<dt class="text-sm font-medium text-gray-700">Created</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ category.createdAt|date('Y-m-d H:i:s') }}</dd>
+					</div>
+					<div class="px-6 py-4 sm:px-8 sm:grid sm:grid-cols-3 sm:gap-4">
+						<dt class="text-sm font-medium text-gray-700">Updated</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ category.updatedAt|date('Y-m-d H:i:s') }}</dd>
+					</div>
+				</dl>
+
+				<!-- Actions -->
+				<div class="border-t border-gray-200 bg-gray-50 px-6 py-4 sm:px-8 flex justify-between items-center">
+					<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 transition">
+						<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+						</svg>
+						Edit
+					</a>
+					{{ include('category/_delete_form.html.twig') }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
