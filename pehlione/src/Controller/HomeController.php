@@ -16,4 +16,16 @@ final class HomeController extends AbstractController
             'categories' => $categoryRepository->findAll(),
         ]);
     }
+
+    #[Route('/about', name: 'app_about', methods: ['GET'])]
+    public function about(): Response
+    {
+        return $this->render('about/index.html.twig');
+    }
+
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
+    public function contact(): Response
+    {
+        return $this->render('contact/index.html.twig');
+    }
 }
