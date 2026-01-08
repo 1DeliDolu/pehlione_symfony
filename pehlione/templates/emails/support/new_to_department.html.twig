@@ -1,0 +1,19 @@
+{% extends 'emails/support/_layout.html.twig' %}
+{% block content %}
+  <p><strong>Yeni mesaj</strong> ({{ thread.type }})</p>
+  <p><strong>Konu:</strong> {{ thread.subject }}</p>
+  <p><strong>Birim:</strong> {{ thread.department.name }}</p>
+
+  {% if thread.type == 'internal' %}
+    <p><strong>Gönderen Birim:</strong> {{ thread.fromDepartment ? thread.fromDepartment.name : '-' }}</p>
+  {% endif %}
+
+  <p><strong>Mesaj:</strong></p>
+  <div style="white-space:pre-wrap;border:1px solid #eee;border-radius:10px;padding:12px;">
+    {{ thread.message }}
+  </div>
+
+  <p style="margin-top:14px;">
+    <a href="{{ staffUrl }}">Sistemde görüntüle</a>
+  </p>
+{% endblock %}

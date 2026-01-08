@@ -94,6 +94,50 @@
                     {% endif %}
                 </div>
 
+                {% if not app.user %}
+                    <!-- Name -->
+                    <div class="sm:col-span-1">
+                        {{ form_label(form.customerName, 'Ad Soyad', {
+                            'label_attr': {
+                                'class': 'block text-sm font-semibold text-gray-900'
+                            }
+                        }) }}
+                        <div class="mt-2.5">
+                            {{ form_widget(form.customerName, {
+                                'attr': {
+                                    'class': 'block w-full rounded-md border border-gray-300 px-3.5 py-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600'
+                                }
+                            }) }}
+                        </div>
+                        {% if form.customerName.vars.errors|length > 0 %}
+                            <div class="mt-2 text-sm text-red-600">
+                                {{ form_errors(form.customerName) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email -->
+                    <div class="sm:col-span-1">
+                        {{ form_label(form.customerEmail, 'E-posta', {
+                            'label_attr': {
+                                'class': 'block text-sm font-semibold text-gray-900'
+                            }
+                        }) }}
+                        <div class="mt-2.5">
+                            {{ form_widget(form.customerEmail, {
+                                'attr': {
+                                    'class': 'block w-full rounded-md border border-gray-300 px-3.5 py-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600'
+                                }
+                            }) }}
+                        </div>
+                        {% if form.customerEmail.vars.errors|length > 0 %}
+                            <div class="mt-2 text-sm text-red-600">
+                                {{ form_errors(form.customerEmail) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
                 <!-- Subject -->
                 <div class="sm:col-span-2">
                     {{ form_label(form.subject, null, {
@@ -147,7 +191,8 @@
                 </button>
             </div>
 
-        {{ form_end(form) }}
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
     </div>
 
     <!-- Get In Touch Section -->

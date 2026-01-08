@@ -1,0 +1,26 @@
+framework:
+  workflows:
+    support_ticket:
+      type: state_machine
+      supports:
+        - App\Entity\SupportMessage
+      marking_store:
+        type: method
+        property: status
+      places:
+        - open
+        - pending
+        - closed
+      transitions:
+        mark_pending:
+          from: open
+          to: pending
+        reopen:
+          from: pending
+          to: open
+        close:
+          from: [open, pending]
+          to: closed
+        reopen_closed:
+          from: closed
+          to: open

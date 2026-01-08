@@ -32,6 +32,12 @@ class SupportDepartment
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(options: ['default' => 1440])]
+    private int $slaFirstResponseMinutes = 1440;
+
+    #[ORM\Column(options: ['default' => 4320])]
+    private int $slaResolutionMinutes = 4320;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -111,6 +117,30 @@ class SupportDepartment
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getSlaFirstResponseMinutes(): int
+    {
+        return $this->slaFirstResponseMinutes;
+    }
+
+    public function setSlaFirstResponseMinutes(int $minutes): static
+    {
+        $this->slaFirstResponseMinutes = $minutes;
+
+        return $this;
+    }
+
+    public function getSlaResolutionMinutes(): int
+    {
+        return $this->slaResolutionMinutes;
+    }
+
+    public function setSlaResolutionMinutes(int $minutes): static
+    {
+        $this->slaResolutionMinutes = $minutes;
 
         return $this;
     }

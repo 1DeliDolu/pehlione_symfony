@@ -18,6 +18,9 @@
 				<a href="{{ path('admin_address_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_address' in app.request.attributes.get('_route') %}bg-indigo-600 text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
 					Adresler
 				</a>
+				<a href="{{ path('admin_support_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_support' in app.request.attributes.get('_route') %}bg-indigo-600 text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
+					Support
+				</a>
 			</nav>
 
 			<div class="border-t border-gray-200 px-4 py-6">

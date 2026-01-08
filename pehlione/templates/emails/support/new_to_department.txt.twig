@@ -1,0 +1,9 @@
+Yeni mesaj ({{ thread.type }})
+Konu: {{ thread.subject }}
+Birim: {{ thread.department.name }}
+{% if thread.type == 'internal' %}Gonderen Birim: {{ thread.fromDepartment ? thread.fromDepartment.name : '-' }}{% endif %}
+
+Mesaj:
+{{ thread.message }}
+
+Sistemde görüntüle: {{ staffUrl }}

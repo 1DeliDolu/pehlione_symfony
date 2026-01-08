@@ -1,0 +1,10 @@
+{% extends 'emails/support/_layout.html.twig' %}
+{% block content %}
+  <p>Talebiniz alındı. En kısa sürede dönüş yapacağız.</p>
+  <p><strong>Konu:</strong> {{ thread.subject }}</p>
+  <p><strong>Birim:</strong> {{ thread.department.name }}</p>
+  <p>
+    Ticket’larınızı buradan takip edebilirsiniz:
+    <a href="{{ customerUrl }}">{{ customerUrl }}</a>
+  </p>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'emails/support/_layout.html.twig' %}
+{% block content %}
+  <p>Talebinize yeni bir yanıt var.</p>
+  <p><strong>Konu:</strong> {{ thread.subject }}</p>
+  <div style="white-space:pre-wrap;border:1px solid #eee;border-radius:10px;padding:12px;">
+    {{ reply.body }}
+  </div>
+  <p><a href="{{ customerUrl }}">Sistemde görüntüle</a></p>
+{% endblock %}

@@ -1,0 +1,49 @@
+<form method="get" class="grid grid-cols-1 md:grid-cols-7 gap-3 bg-white p-4 rounded-xl border">
+  <input name="q" value="{{ filters.q|default('') }}" placeholder="Ara: konu, email, içerik"
+         class="md:col-span-2 rounded-lg border px-3 py-2" />
+
+  <select name="status" class="rounded-lg border px-3 py-2">
+    <option value="">Status</option>
+    {% for s in ['open','pending','closed'] %}
+      <option value="{{ s }}" {% if filters.status|default('') == s %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="priority" class="rounded-lg border px-3 py-2">
+    <option value="">Priority</option>
+    {% for p in ['low','normal','high','urgent'] %}
+      <option value="{{ p }}" {% if filters.priority|default('') == p %}selected{% endif %}>{{ p }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="assigned" class="rounded-lg border px-3 py-2">
+    <option value="">Assignee</option>
+    <option value="assigned" {% if filters.assigned|default('') == 'assigned' %}selected{% endif %}>Assigned</option>
+    <option value="unassigned" {% if filters.assigned|default('') == 'unassigned' %}selected{% endif %}>Unassigned</option>
+  </select>
+
+  <select name="type" class="rounded-lg border px-3 py-2">
+    <option value="">Type</option>
+    <option value="customer" {% if filters.type|default('') == 'customer' %}selected{% endif %}>customer</option>
+    <option value="internal" {% if filters.type|default('') == 'internal' %}selected{% endif %}>internal</option>
+  </select>
+
+  <select name="department" class="rounded-lg border px-3 py-2">
+    <option value="">Department</option>
+    {% for d in departments %}
+      <option value="{{ d.id }}" {% if filters.department|default('') == d.id %}selected{% endif %}>{{ d.name }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="tag" class="rounded-lg border px-3 py-2">
+    <option value="">Tag</option>
+    {% for t in tags %}
+      <option value="{{ t.id }}" {% if filters.tag|default('') == t.id %}selected{% endif %}>{{ t.name }}</option>
+    {% endfor %}
+  </select>
+
+  <div class="md:col-span-7 flex gap-2">
+    <button class="rounded-lg bg-indigo-600 text-white px-4 py-2">Filter</button>
+    <a href="{{ path('admin_support_index') }}" class="rounded-lg border px-4 py-2">Reset</a>
+  </div>
+</form>

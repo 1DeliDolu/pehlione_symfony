@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mail - Pehlione{% endblock %}
+
+{% block body %}
+<div class="mx-auto max-w-6xl px-4 py-10 space-y-8">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900">Mail</h1>
+            <p class="text-sm text-gray-600">Ticket ve iç mesajlarınızı buradan takip edebilirsiniz.</p>
+        </div>
+        {% if app.user and app.user.isStaff() and app.user.supportDepartment %}
+            <a href="{{ path('support_internal_new') }}" class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                Yeni İç Mesaj
+            </a>
+        {% endif %}
+    </div>
+
+    {% for label, messages in app.flashes %}
+        {% for msg in messages %}
+            <div class="rounded-lg border px-4 py-3 text-sm {% if label == 'success' %}border-green-200 bg-green-50 text-green-800{% else %}border-red-200 bg-red-50 text-red-800{% endif %}">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <section class="space-y-3">
+        <h2 class="text-lg font-semibold text-gray-900">Benim Ticketlarım</h2>
+        <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left font-medium">#</th>
+                        <th class="px-4 py-3 text-left font-medium">Konu</th>
+                        <th class="px-4 py-3 text-left font-medium">Birim</th>
+                        <th class="px-4 py-3 text-left font-medium">Durum</th>
+                        <th class="px-4 py-3 text-left font-medium">Güncelleme</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    {% for t in myThreads %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">
+                                <a class="text-indigo-600 hover:underline" href="{{ path('support_thread_show', {id: t.id}) }}">#{{ "%06d"|format(t.id) }}</a>
+                            </td>
+                            <td class="px-4 py-3 font-medium text-gray-900">{{ t.subject }}</td>
+                            <td class="px-4 py-3">{{ t.department.name }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex rounded-full border px-2 py-0.5 text-xs font-medium border-gray-200 text-gray-700">
+                                    {{ t.status }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-gray-600 text-xs">{{ t.updatedAt|date('d.m.Y H:i') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">Henüz ticket yok.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    {% if app.user and app.user.isStaff() and app.user.supportDepartment %}
+        <section class="space-y-3">
+            <h2 class="text-lg font-semibold text-gray-900">Birim Inbox</h2>
+            <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-medium">#</th>
+                            <th class="px-4 py-3 text-left font-medium">Konu</th>
+                            <th class="px-4 py-3 text-left font-medium">Gönderen</th>
+                            <th class="px-4 py-3 text-left font-medium">Güncelleme</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for t in deptInbox %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <a class="text-indigo-600 hover:underline" href="{{ path('support_thread_show', {id: t.id}) }}">#{{ "%06d"|format(t.id) }}</a>
+                                </td>
+                                <td class="px-4 py-3 font-medium text-gray-900">{{ t.subject }}</td>
+                                <td class="px-4 py-3 text-gray-600">
+                                    {% if t.createdBy %}
+                                        {{ t.createdBy.name ?? t.createdBy.email }}
+                                    {% else %}
+                                        {{ t.customerName ?? t.customerEmail ?? '-' }}
+                                    {% endif %}
+                                </td>
+                                <td class="px-4 py-3 text-gray-600 text-xs">{{ t.updatedAt|date('d.m.Y H:i') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">Birim inbox boş.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="space-y-3">
+            <h2 class="text-lg font-semibold text-gray-900">İç Mesajlar</h2>
+            <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-medium">#</th>
+                            <th class="px-4 py-3 text-left font-medium">Konu</th>
+                            <th class="px-4 py-3 text-left font-medium">Gönderen Birim</th>
+                            <th class="px-4 py-3 text-left font-medium">Hedef Birim</th>
+                            <th class="px-4 py-3 text-left font-medium">Güncelleme</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for t in internalThreads %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <a class="text-indigo-600 hover:underline" href="{{ path('support_thread_show', {id: t.id}) }}">#{{ "%06d"|format(t.id) }}</a>
+                                </td>
+                                <td class="px-4 py-3 font-medium text-gray-900">{{ t.subject }}</td>
+                                <td class="px-4 py-3">{{ t.fromDepartment ? t.fromDepartment.name : '-' }}</td>
+                                <td class="px-4 py-3">{{ t.department.name }}</td>
+                                <td class="px-4 py-3 text-gray-600 text-xs">{{ t.updatedAt|date('d.m.Y H:i') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">İç mesaj bulunmuyor.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

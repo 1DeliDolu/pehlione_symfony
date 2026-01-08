@@ -52,15 +52,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $lastname = null;
 
-    /**
-     * @var Collection<int, SupportMessage>
-     */
-    #[ORM\OneToMany(targetEntity: SupportMessage::class, mappedBy: 'fromUser')]
-    private Collection $supportMessages;
+    #[ORM\ManyToOne]
+    private ?SupportDepartment $supportDepartment = null;
+
+
 
     public function __construct()
     {
-        $this->supportMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +215,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getSupportDepartment(): ?SupportDepartment { return $this->supportDepartment; }
+    public function setSupportDepartment(?SupportDepartment $supportDepartment): self { $this->supportDepartment = $supportDepartment; return $this; }
+
     public function getName(): ?string
     {
         $firstname = $this->firstname ?? '';
@@ -225,33 +226,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $fullName ?: null;
     }
 
-    /**
-     * @return Collection<int, SupportMessage>
-     */
-    public function getSupportMessages(): Collection
+    public function isStaff(): bool
     {
-        return $this->supportMessages;
+        return \in_array('ROLE_ADMIN', $this->getRoles(), true)
+            || \in_array('ROLE_STAFF', $this->getRoles(), true);
     }
 
-    public function addSupportMessage(SupportMessage $supportMessage): static
-    {
-        if (!$this->supportMessages->contains($supportMessage)) {
-            $this->supportMessages->add($supportMessage);
-            $supportMessage->setFromUser($this);
-        }
 
-        return $this;
-    }
-
-    public function removeSupportMessage(SupportMessage $supportMessage): static
-    {
-        if ($this->supportMessages->removeElement($supportMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($supportMessage->getFromUser() === $this) {
-                $supportMessage->setFromUser(null);
-            }
-        }
-
-        return $this;
-    }
 }
