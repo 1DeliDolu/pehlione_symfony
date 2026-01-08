@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ address.firstName }}
-	{{ address.lastName }}
+	{{ address.user.firstname ?? 'N/A' }}
+	{{ address.user.lastname ?? 'N/A' }}
 	- Admin
 {% endblock %}
 
@@ -11,8 +11,8 @@
 		<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12">
 			<div class="mb-8">
 				<a href="{{ path('admin_address_index') }}" class="text-indigo-600 hover:text-indigo-900">← Back to Addresses</a>
-				<h1 class="text-3xl font-bold tracking-tight text-gray-900 mt-4">{{ address.firstName }}
-					{{ address.lastName }}</h1>
+				<h1 class="text-3xl font-bold tracking-tight text-gray-900 mt-4">{{ address.user.firstname ?? 'N/A' }}
+					{{ address.user.lastname ?? 'N/A' }}</h1>
 			</div>
 
 			<div class="grid grid-cols-1 gap-8 sm:grid-cols-2">

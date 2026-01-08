@@ -133,7 +133,7 @@
 								</span>
 							</div>
 
-							<a href="{{ path('checkout') }}" class="block w-full mt-6 bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition text-center">
+							<a href="{{ path('checkout_address') }}" class="block w-full mt-6 bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition text-center">
 								Checkout
 							</a>
 						</div>
@@ -186,15 +186,18 @@ subtotalEl.textContent = '$' + (
 data.subtotal / 100
 ).toFixed(2);
 
+
 if (taxEl) 
 taxEl.textContent = '$' + (
 data.tax / 100
 ).toFixed(2);
 
+
 if (totalEl) 
 totalEl.textContent = '$' + (
 data.total / 100
 ).toFixed(2);
+
 
 
 // Update cart badge

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -43,15 +41,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Address $address = null;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
-    private Collection $orders;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatarPath = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $lastname = null;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,32 +172,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getAvatarPath(): ?string
     {
-        return $this->orders;
+        return $this->avatarPath;
     }
 
-    public function addOrder(Order $order): static
+    public function setAvatarPath(?string $avatarPath): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setUser($this);
-        }
+        $this->avatarPath = $avatarPath;
 
         return $this;
     }
 
-    public function removeOrder(Order $order): static
+    public function getFirstname(): ?string
     {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getUser() === $this) {
-                $order->setUser(null);
-            }
-        }
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): static
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }

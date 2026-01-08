@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% block title %}Siparişlerim
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white">
+		<div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+			<h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Siparişlerim</h1>
+
+			{% if orders|length == 0 %}
+				<div class="rounded-xl border bg-gray-50 p-8 text-center">
+					<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+					</svg>
+					<p class="mt-4 text-lg text-gray-700">Henüz siparişiniz yok</p>
+					<p class="mt-2 text-sm text-gray-600">Alışverişe başlamak için aşağıdaki butona tıklayın</p>
+					<a href="{{ path('app_product_index') }}" class="mt-6 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white hover:bg-indigo-700">
+						Alışverişe devam et
+					</a>
+				</div>
+			{% else %}
+				<div class="space-y-4">
+					{% for order in orders %}
+						<div class="rounded-xl border bg-white p-6 hover:shadow-md transition">
+							<div class="flex items-center justify-between gap-4">
+								<div class="flex-1 min-w-0">
+									<div class="flex items-center gap-4">
+										<div>
+											<h3 class="text-lg font-semibold text-gray-900">{{ order.orderNumber }}</h3>
+											<p class="text-sm text-gray-600 mt-1">{{ order.createdAt|date('d.m.Y H:i') }}</p>
+										</div>
+										<div>
+											<span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium
+													                      {% if order.status == 'pending' %}
+													                        bg-yellow-100 text-yellow-800
+													                      {% elseif order.status == 'placed' %}
+													                        bg-blue-100 text-blue-800
+													                      {% elseif order.status == 'shipped' %}
+													                        bg-green-100 text-green-800
+													                      {% else %}
+													                        bg-gray-100 text-gray-800
+													                      {% endif %}
+													                    ">
+												{{ order.status|upper }}
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="text-right">
+									<p class="text-2xl font-semibold text-gray-900">{{ (order.totalAmount / 100)|number_format(2, ',', '.') }}
+										{{ order.currency }}</p>
+									<p class="text-sm text-gray-600 mt-1">{{ order.items|length }}
+										ürün</p>
+								</div>
+							</div>
+
+							<div class="mt-4 border-t pt-4">
+								<div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+									<div>
+										<p class="text-xs font-medium text-gray-500 uppercase">Ürünler</p>
+										<p class="text-sm text-gray-900">
+											{% for item in order.items %}
+												{{ item.productName }}
+												{% if not loop.last %},
+												{% endif %}
+											{% endfor %}
+										</p>
+									</div>
+									<div>
+										<p class="text-xs font-medium text-gray-500 uppercase">Teslimat Adresi</p>
+										<p class="text-sm text-gray-900">{{ order.shippingCity }},
+											{{ order.shippingCountryCode }}</p>
+									</div>
+									<div class="text-right">
+										<a href="{{ path('order_show', {id: order.id}) }}" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
+											Detaylar
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

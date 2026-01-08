@@ -31,11 +31,12 @@ class OrderItem
     #[ORM\Column]
     private ?int $lineTotalAmount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderItems')]
+    #[ORM\ManyToOne(targetEntity: ShopOrder::class, inversedBy: 'items')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Order $orderRef = null;
+    private ?ShopOrder $orderRef = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Product $product = null;
 
     public function getId(): ?int
@@ -115,12 +116,12 @@ class OrderItem
         return $this;
     }
 
-    public function getOrderRef(): ?Order
+    public function getOrderRef(): ?ShopOrder
     {
         return $this->orderRef;
     }
 
-    public function setOrderRef(?Order $orderRef): static
+    public function setOrderRef(?ShopOrder $orderRef): static
     {
         $this->orderRef = $orderRef;
 

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %}Checkout - Review
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50">
+		<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+			<div class="flex items-end justify-between gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">Review</h1>
+					<p class="mt-1 text-sm text-gray-600">Siparişinizi onaylamadan önce kontrol edin.</p>
+				</div>
+				<a class="rounded-xl border bg-white px-4 py-2.5 text-sm font-medium hover:bg-gray-50" href="{{ path('checkout_address') }}">
+					Adresi düzenle
+				</a>
+			</div>
+
+			<div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+				<div class="lg:col-span-8 rounded-2xl border bg-white overflow-hidden">
+					<div class="divide-y">
+						{% for line in lines %}
+							{% set p = line.product %}
+							<div class="p-5 flex items-start justify-between gap-4">
+								<div class="min-w-0">
+									<div class="font-medium text-gray-900">{{ p.name }}</div>
+									<div class="mt-1 text-sm text-gray-600">Qty
+										{{ line.qty }}</div>
+								</div>
+								<div class="text-sm font-semibold text-gray-900 whitespace-nowrap">
+									{{ (line.lineTotal / 100)|number_format(2, ',', '.') }}
+									{{ currency }}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				<aside class="lg:col-span-4 space-y-6">
+					<div class="rounded-2xl border bg-white p-6">
+						<div class="text-sm font-medium text-gray-900">Teslimat</div>
+						<div class="mt-3 text-sm text-gray-700 space-y-1">
+							<div class="font-medium text-gray-900">{{ app.user.firstname }}
+								{{ app.user.lastname }}</div>
+							<div>{{ address.strasse }}</div>
+							<div>{{ address.hausnummer }}</div>
+							<div>{{ address.postalCode }}
+								{{ address.city }}</div>
+							{% if address.region %}
+								<div>{{ address.region }}</div>
+							{% endif %}
+							<div>{{ address.countryCode }}</div>
+							{% if address.phone %}
+								<div class="text-gray-600">{{ address.phone }}</div>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="rounded-2xl border bg-white p-6">
+						<div class="flex items-center justify-between text-sm">
+							<span class="text-gray-600">Toplam</span>
+							<span class="text-lg font-semibold text-gray-900">
+								{{ (totalAmount / 100)|number_format(2, ',', '.') }}
+								{{ currency }}
+							</span>
+						</div>
+
+						<form method="post" action="{{ path('checkout_place') }}" class="mt-6">
+							<input type="hidden" name="_token" value="{{ csrf_token('checkout_place') }}">
+							<button type="submit" class="w-full rounded-xl bg-black px-4 py-3 text-sm font-medium text-white hover:opacity-90">
+								Siparişi oluştur
+							</button>
+						</form>
+
+						<a class="mt-3 block text-center rounded-xl border px-4 py-3 text-sm font-medium hover:bg-gray-50" href="{{ path('cart_show') }}">
+							Sepete dön
+						</a>
+					</div>
+				</aside>
+			</div>
+		</div>
+	</div>
+{% endblock %}

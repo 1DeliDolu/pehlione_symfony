@@ -8,24 +8,35 @@
 		<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12">
 			<div class="mb-8">
 				<h1 class="text-3xl font-bold tracking-tight text-gray-900">Edit Address</h1>
-				<p class="mt-1 text-sm text-gray-600">{{ address.firstName }}
-					{{ address.lastName }}</p>
+				<p class="mt-1 text-sm text-gray-600">{{ address.user.firstname ?? 'N/A' }}
+					{{ address.user.lastname ?? 'N/A' }}</p>
 			</div>
+
+			<!-- User Profile Section -->
+			{% if address.user %}
+				<div class="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
+					<h2 class="text-lg font-semibold text-gray-900 mb-4">User Profile</h2>
+					<div class="flex items-center gap-6">
+						<div>
+							<img src="{{ address.user.avatarPath ? asset(address.user.avatarPath) : asset('images/avatar-placeholder.png') }}" class="h-24 w-24 rounded-full bg-gray-200 object-cover" alt="{{ address.user.firstname }} {{ address.user.lastname }}">
+						</div>
+						<div class="space-y-2">
+							<div>
+								<dt class="text-sm font-medium text-gray-500">Name</dt>
+								<dd class="text-sm text-gray-900">{{ address.user.firstname ?? 'N/A' }}
+									{{ address.user.lastname ?? 'N/A' }}</dd>
+							</div>
+							<div>
+								<dt class="text-sm font-medium text-gray-500">Email</dt>
+								<dd class="text-sm text-gray-900">{{ address.user.email }}</dd>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
 
 			{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-				<div>
-					{{ form_label(form.firstName) }}
-					{{ form_widget(form.firstName, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
-					{{ form_errors(form.firstName) }}
-				</div>
-
-				<div>
-					{{ form_label(form.lastName) }}
-					{{ form_widget(form.lastName, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}
-					{{ form_errors(form.lastName) }}
-				</div>
-
 				<div>
 					{{ form_label(form.phone) }}
 					{{ form_widget(form.phone, {'attr': {'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}}) }}

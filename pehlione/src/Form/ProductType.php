@@ -7,11 +7,14 @@ use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 
 final class ProductType extends AbstractType
 {
@@ -52,6 +55,27 @@ final class ProductType extends AbstractType
             ->add('isActive', CheckboxType::class, [
                 'label' => 'Aktif',
                 'required' => false,
+            ])
+            ->add('imageUrl', TextType::class, [
+                'label' => 'Resim URL',
+                'required' => false,
+                'help' => 'Ürün resminin URL\'si (örn: /images/products/643/thumbnail.jpg)',
+            ])
+            ->add('imageFiles', FileType::class, [
+                'label' => 'Ürün Fotoğrafları',
+                'mapped' => false,
+                'required' => false,
+                'multiple' => true,
+                'help' => 'PNG, JPG, WEBP (maks 10MB). Sürükle-bırak veya seçerek yükleyin.',
+                'constraints' => [
+                    new All([
+                        new File([
+                            'maxSize' => '10M',
+                            'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+                            'mimeTypesMessage' => 'Lütfen geçerli bir görsel yükleyin (JPG/PNG/WEBP/GIF).',
+                        ]),
+                    ]),
+                ],
             ])
         ;
     }

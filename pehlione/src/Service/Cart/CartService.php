@@ -57,6 +57,16 @@ final class CartService
     }
 
     /**
+     * Alias for getCart() - returns all cart items.
+     *
+     * @return array<int, int>
+     */
+    public function all(): array
+    {
+        return $this->getCart();
+    }
+
+    /**
      * Count total items in cart.
      */
     public function countItems(): int

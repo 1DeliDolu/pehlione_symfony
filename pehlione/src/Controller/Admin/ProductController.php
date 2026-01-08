@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\Upload\ProductImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,8 +24,11 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ProductImageUploader $uploader
+    ): Response {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -32,6 +36,17 @@ final class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($product);
             $entityManager->flush();
+
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile[] $files */
+            $files = $form->get('imageFiles')->getData() ?? [];
+
+            if ($files) {
+                $newImages = $uploader->upload($product, $files);
+                foreach ($newImages as $img) {
+                    $entityManager->persist($img);
+                }
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('admin_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -51,13 +66,28 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Product $product,
+        EntityManagerInterface $entityManager,
+        ProductImageUploader $uploader
+    ): Response {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile[] $files */
+            $files = $form->get('imageFiles')->getData() ?? [];
+
+            if ($files) {
+                $newImages = $uploader->upload($product, $files);
+                foreach ($newImages as $img) {
+                    $entityManager->persist($img);
+                }
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('admin_product_index', [], Response::HTTP_SEE_OTHER);
         }

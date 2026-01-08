@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block title %}Checkout - Adres
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50">
+		<div class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+			<div class="mb-6">
+				<h1 class="text-2xl font-semibold text-gray-900">Adres</h1>
+				<p class="mt-1 text-sm text-gray-600">Checkout için teslimat adresinizi doğrulayın.</p>
+			</div>
+
+			<div class="rounded-2xl border bg-white p-6 shadow-sm">
+				{% set inputClass = 'mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black' %}
+
+				{{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+
+				<div>
+					{{ form_label(form.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+					{{ form_widget(form.phone, {'attr': {'class': inputClass}}) }}
+					{{ form_errors(form.phone) }}
+				</div>
+
+				<div class="border-t pt-6">
+					<h2 class="text-sm font-semibold text-gray-900">Adres</h2>
+
+					<div class="mt-4 space-y-6">
+						<div>
+							{{ form_label(form.strasse, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+							{{ form_widget(form.strasse, {'attr': {'class': inputClass}}) }}
+							{{ form_errors(form.strasse) }}
+						</div>
+
+						<div>
+							{{ form_label(form.hausnummer, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+							{{ form_widget(form.hausnummer, {'attr': {'class': inputClass}}) }}
+							{{ form_errors(form.hausnummer) }}
+						</div>
+
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+							<div class="sm:col-span-1">
+								{{ form_label(form.postalCode, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+								{{ form_widget(form.postalCode, {'attr': {'class': inputClass}}) }}
+								{{ form_errors(form.postalCode) }}
+							</div>
+							<div class="sm:col-span-2">
+								{{ form_label(form.city, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+								{{ form_widget(form.city, {'attr': {'class': inputClass}}) }}
+								{{ form_errors(form.city) }}
+							</div>
+						</div>
+
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+							<div>
+								{{ form_label(form.region, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+								{{ form_widget(form.region, {'attr': {'class': inputClass}}) }}
+								{{ form_errors(form.region) }}
+							</div>
+							<div>
+								{{ form_label(form.countryCode, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900'}}) }}
+								{{ form_widget(form.countryCode, {'attr': {'class': inputClass}}) }}
+								{{ form_errors(form.countryCode) }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{{ form_rest(form) }}
+
+				<div class="flex items-center justify-between gap-3 border-t pt-6">
+					<a href="{{ path('cart_show') }}" class="rounded-xl border bg-white px-4 py-2.5 text-sm font-medium hover:bg-gray-50">
+						← Sepete dön
+					</a>
+					<button type="submit" class="rounded-xl bg-black px-4 py-2.5 text-sm font-medium text-white hover:opacity-90">
+						Devam et
+					</button>
+				</div>
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

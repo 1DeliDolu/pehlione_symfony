@@ -30,8 +30,8 @@
 								<tbody class="divide-y divide-gray-200">
 									{% for address in addresses %}
 										<tr>
-											<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ address.firstName }}
-												{{ address.lastName }}</td>
+											<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ address.user.firstname ?? 'N/A' }}
+												{{ address.user.lastname ?? 'N/A' }}</td>
 											<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ address.strasse }}
 												{{ address.hausnummer }}</td>
 											<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ address.city }}</td>
