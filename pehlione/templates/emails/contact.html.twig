@@ -1,0 +1,24 @@
+<h2 style="color: #333; margin-bottom: 20px;">PehliONE - İletişim Mesajı</h2>
+
+<div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+    <p style="margin: 8px 0;"><strong>Birim:</strong> {{ departmentName }}</p>
+    <p style="margin: 8px 0;"><strong>Kullanıcı:</strong> {{ userName }} ({{ userEmail }})</p>
+    {% if userId is not null %}
+        <p style="margin: 8px 0;"><strong>Kullanıcı ID:</strong> {{ userId }}</p>
+    {% endif %}
+    <p style="margin: 8px 0;"><strong>Gönderim Tarihi:</strong> {{ sentAt|date('d.m.Y H:i:s') }}</p>
+</div>
+
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+<div>
+    <p><strong style="font-size: 16px;">Konu:</strong> {{ subject }}</p>
+    <p><strong style="font-size: 16px;">Mesaj:</strong></p>
+    <p style="white-space: pre-wrap; line-height: 1.6; background: #f9f9f9; padding: 15px; border-left: 3px solid #4f46e5;">{{ message }}</p>
+</div>
+
+<hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+
+<p style="color: #666; font-size: 12px;">
+    Bu mesaj PehliONE iletişim formundan gönderilmiştir. Lütfen doğrudan yanıt vermek için yukarıdaki e-posta adresini kullanınız.
+</p>

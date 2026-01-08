@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sepetim - Pehlione
+{% block title %}Sepetim - PehliONE
+
 {% endblock %}
 
 {% block body %}
@@ -181,19 +182,19 @@ const subtotalEl = document.querySelector('[data-subtotal]');
 const taxEl = document.querySelector('[data-tax]');
 const totalEl = document.querySelector('[data-total]');
 
-if (subtotalEl) 
+if (subtotalEl)
 subtotalEl.textContent = '$' + (
 data.subtotal / 100
 ).toFixed(2);
 
 
-if (taxEl) 
+if (taxEl)
 taxEl.textContent = '$' + (
 data.tax / 100
 ).toFixed(2);
 
 
-if (totalEl) 
+if (totalEl)
 totalEl.textContent = '$' + (
 data.total / 100
 ).toFixed(2);

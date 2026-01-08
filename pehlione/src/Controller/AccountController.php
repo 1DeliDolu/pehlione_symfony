@@ -24,26 +24,28 @@ final class AccountController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+        // Create and handle profile form
+        $form = $this->createForm(\App\Form\UserProfileType::class, $user);
+        $form->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            $uploadedFile = $request->files->get('avatar');
-
-            if ($uploadedFile) {
-                // Upload the file
-                $avatarPath = $uploader->upload($user->getId(), $uploadedFile);
-
-                // Update user avatar path
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle avatar upload if provided via the form
+            $avatarFile = $form->get('avatar')->getData();
+            if ($avatarFile) {
+                $avatarPath = $uploader->upload($user->getId(), $avatarFile);
                 $user->setAvatarPath($avatarPath);
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Avatar updated successfully!');
-                return $this->redirectToRoute('app_account_profile');
             }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profile updated successfully!');
+            return $this->redirectToRoute('app_account_profile');
         }
 
         return $this->render('account/profile.html.twig', [
             'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -6,13 +6,16 @@
 		<!-- Sidebar -->
 		<aside class="hidden w-64 border-r border-gray-200 bg-white lg:block">
 			<nav class="space-y-1 px-4 py-6">
-				<a href="{{ path('admin_product_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_product' in app.request.attributes.get('_route') %}bg-black text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
+				<a href="{{ path('admin_dashboard') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_dashboard' in app.request.attributes.get('_route') %}bg-indigo-600 text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
+					Dashboard
+				</a>
+				<a href="{{ path('admin_product_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_product' in app.request.attributes.get('_route') %}bg-indigo-600 text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
 					Ürünler
 				</a>
-				<a href="{{ path('app_category_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+				<a href="{{ path('admin_category_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
 					Kategoriler
 				</a>
-				<a href="{{ path('admin_address_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_address' in app.request.attributes.get('_route') %}bg-black text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
+				<a href="{{ path('admin_address_index') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium {% if 'admin_address' in app.request.attributes.get('_route') %}bg-indigo-600 text-white{% else %}text-gray-700 hover:bg-gray-50{% endif %}">
 					Adresler
 				</a>
 			</nav>

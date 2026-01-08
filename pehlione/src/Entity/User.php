@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -50,8 +52,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $lastname = null;
 
+    /**
+     * @var Collection<int, SupportMessage>
+     */
+    #[ORM\OneToMany(targetEntity: SupportMessage::class, mappedBy: 'fromUser')]
+    private Collection $supportMessages;
+
     public function __construct()
     {
+        $this->supportMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,6 +213,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        $firstname = $this->firstname ?? '';
+        $lastname = $this->lastname ?? '';
+        $fullName = trim($firstname . ' ' . $lastname);
+        return $fullName ?: null;
+    }
+
+    /**
+     * @return Collection<int, SupportMessage>
+     */
+    public function getSupportMessages(): Collection
+    {
+        return $this->supportMessages;
+    }
+
+    public function addSupportMessage(SupportMessage $supportMessage): static
+    {
+        if (!$this->supportMessages->contains($supportMessage)) {
+            $this->supportMessages->add($supportMessage);
+            $supportMessage->setFromUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportMessage(SupportMessage $supportMessage): static
+    {
+        if ($this->supportMessages->removeElement($supportMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($supportMessage->getFromUser() === $this) {
+                $supportMessage->setFromUser(null);
+            }
+        }
 
         return $this;
     }

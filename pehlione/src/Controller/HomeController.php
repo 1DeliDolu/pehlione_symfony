@@ -22,10 +22,4 @@ final class HomeController extends AbstractController
     {
         return $this->render('about/index.html.twig');
     }
-
-    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
-    public function contact(): Response
-    {
-        return $this->render('contact/index.html.twig');
-    }
 }

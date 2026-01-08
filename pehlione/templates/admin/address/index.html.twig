@@ -1,33 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/_layout.html.twig' %}
 
-{% block title %}Addresses - Admin
-{% endblock %}
+{% block title %}Addresses - Admin{% endblock %}
 
-{% block body %}
-	<div class="bg-white">
-		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-			<div class="flex items-center justify-between">
-				<h1 class="text-3xl font-bold tracking-tight text-gray-900">Addresses</h1>
-				<a href="{{ path('admin_address_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+{% block admin_content %}
+	<div>
+		<div>
+			<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold">Addresses</h1>
+					<p class="mt-1 text-sm text-gray-600">Manage user addresses</p>
+				</div>
+
+				<a href="{{ path('admin_address_new') }}" class="inline-flex items-center justify-center rounded-xl bg-black px-4 py-2.5 text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
 					+ New Address
 				</a>
 			</div>
 
 			{% if addresses %}
-				<div class="mt-8 flow-root">
-					<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-						<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-							<table class="min-w-full divide-y divide-gray-300">
-								<thead class="bg-gray-50">
+				<div class="mt-6 rounded-2xl border bg-white overflow-hidden">
+					<div class="overflow-x-auto">
+						<table class="min-w-full text-sm">
+								<thead class="bg-gray-50 text-gray-600">
 									<tr>
-										<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-										<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Street</th>
-										<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">City</th>
-										<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">User</th>
-										<th scope="col" class="relative px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
+										<th class="px-5 py-3 text-left font-medium">Name</th>
+										<th class="px-5 py-3 text-left font-medium">Street</th>
+										<th class="px-5 py-3 text-left font-medium">City</th>
+										<th class="px-5 py-3 text-left font-medium">User</th>
+										<th class="px-5 py-3 text-right font-medium">Actions</th>
 									</tr>
 								</thead>
-								<tbody class="divide-y divide-gray-200">
+								<tbody class="divide-y">
 									{% for address in addresses %}
 										<tr>
 											<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ address.user.firstname ?? 'N/A' }}

@@ -1,0 +1,18 @@
+PehliONE - İletişim Mesajı
+
+Birim: {{ departmentName }}
+Kullanıcı: {{ userName }} ({{ userEmail }})
+{% if userId is not null %}Kullanıcı ID: {{ userId }}
+{% endif %}
+Gönderim Tarihi: {{ sentAt|date('d.m.Y H:i:s') }}
+
+---
+
+Konu: {{ subject }}
+
+Mesaj:
+{{ message }}
+
+---
+
+Bu mesaj PehliONE iletişim formundan gönderilmiştir. Lütfen doğrudan yanıt vermek için yukarıdaki e-posta adresini kullanınız.

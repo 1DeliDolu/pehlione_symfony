@@ -1,0 +1,99 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Admin Dashboard - Pehlione{% endblock %}
+
+{% block admin_content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Admin Dashboard</h1>
+            <p class="mt-2 text-sm text-gray-600">Manage products, categories, and orders</p>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Products -->
+        <a href="{{ path('admin_product_index') }}" class="relative overflow-hidden rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4m0 0L4 7m16 0l-8 4m0 0l8 4m-8-4v10m0 0l-8-4m8 4l8-4"></path>
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-lg font-medium text-gray-900">Products</h3>
+                    <p class="mt-1 text-sm text-gray-500">Manage your product catalog</p>
+                </div>
+            </div>
+            <div class="absolute right-6 top-6">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </a>
+
+        <!-- Categories -->
+        <a href="{{ path('admin_category_index') }}" class="relative overflow-hidden rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-lg font-medium text-gray-900">Categories</h3>
+                    <p class="mt-1 text-sm text-gray-500">Organize your categories</p>
+                </div>
+            </div>
+            <div class="absolute right-6 top-6">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </a>
+
+        <!-- Addresses -->
+        <a href="{{ path('admin_address_index') }}" class="relative overflow-hidden rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-lg font-medium text-gray-900">Addresses</h3>
+                    <p class="mt-1 text-sm text-gray-500">Manage user addresses</p>
+                </div>
+            </div>
+            <div class="absolute right-6 top-6">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </a>
+
+        <!-- Mail/Support -->
+        <a href="{{ path('admin_mail_inbox') }}" class="relative overflow-hidden rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-lg font-medium text-gray-900">Support Messages</h3>
+                    <p class="mt-1 text-sm text-gray-500">Contact form messages</p>
+                </div>
+            </div>
+            <div class="absolute right-6 top-6">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

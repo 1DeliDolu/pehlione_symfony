@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mail Inbox{% endblock %}
+
+{% block body %}
+<div class="mx-auto max-w-6xl px-4 py-10">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold">Mail Inbox</h1>
+
+    <form method="get" class="flex gap-2">
+      <select name="status" class="rounded-md border border-gray-300 px-3 py-2">
+        <option value="">Hepsi</option>
+        <option value="new" {{ status == 'new' ? 'selected' : '' }}>Yeni</option>
+        <option value="read" {{ status == 'read' ? 'selected' : '' }}>Okundu</option>
+        <option value="archived" {{ status == 'archived' ? 'selected' : '' }}>Arşiv</option>
+      </select>
+      <input name="q" value="{{ q }}" placeholder="Ara (konu / email)" class="w-72 rounded-md border border-gray-300 px-3 py-2" />
+      <button class="rounded-md bg-gray-900 px-4 py-2 text-white hover:bg-gray-800">Filtrele</button>
+    </form>
+  </div>
+
+  <div class="overflow-hidden rounded-xl border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-medium">#</th>
+          <th class="px-4 py-3 text-left font-medium">Durum</th>
+          <th class="px-4 py-3 text-left font-medium">Gönderen</th>
+          <th class="px-4 py-3 text-left font-medium">Konu</th>
+          <th class="px-4 py-3 text-left font-medium">Tarih</th>
+          <th class="px-4 py-3"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+        {% for m in messages %}
+          <tr class="{{ m.status == 'new' ? 'bg-yellow-50' : '' }}">
+            <td class="px-4 py-3">#{{ m.id }}</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex rounded-full border px-2 py-0.5 text-xs font-medium
+                {% if m.status == 'new' %}
+                  border-yellow-300 bg-yellow-50 text-yellow-700
+                {% elseif m.status == 'read' %}
+                  border-blue-300 bg-blue-50 text-blue-700
+                {% else %}
+                  border-gray-300 bg-gray-50 text-gray-700
+                {% endif %}
+              ">
+                {{ m.status }}
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <div class="font-medium">{{ m.fromName ?: '-' }}</div>
+              <div class="text-gray-500 text-xs">{{ m.fromEmail }}</div>
+            </td>
+            <td class="px-4 py-3 font-medium">{{ m.subject }}</td>
+            <td class="px-4 py-3 text-gray-600 text-xs">{{ m.createdAt|date('d.m.Y H:i') }}</td>
+            <td class="px-4 py-3 text-right">
+              <a class="text-indigo-600 hover:underline text-sm" href="{{ path('admin_mail_show', {id: m.id}) }}">Aç</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">Kayıt yok.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -42,7 +42,9 @@
         "symfony/web-link": "7.4.*",
         "symfony/webpack-encore-bundle": "^2.4",
         "symfony/yaml": "7.4.*",
+        "twig/cssinliner-extra": "^3.22",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/inky-extra": "^3.22",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

@@ -5,6 +5,11 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    # Mailer envelope configuration for Notifier
+    mailer:
+        envelope:
+            sender: '%env(MAILER_FROM)%'
+
     #esi: true
     #fragments: true
 

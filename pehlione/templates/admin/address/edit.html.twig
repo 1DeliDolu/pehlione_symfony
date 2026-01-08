@@ -1,41 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/_layout.html.twig' %}
 
-{% block title %}Edit Address - Admin
-{% endblock %}
+{% block title %}Edit Address - Admin{% endblock %}
 
-{% block body %}
-	<div class="bg-white">
-		<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12">
-			<div class="mb-8">
-				<h1 class="text-3xl font-bold tracking-tight text-gray-900">Edit Address</h1>
-				<p class="mt-1 text-sm text-gray-600">{{ address.user.firstname ?? 'N/A' }}
-					{{ address.user.lastname ?? 'N/A' }}</p>
+{% block admin_content %}
+	<div>
+		<div>
+			<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+				<div>
+					<h1 class="text-2xl font-semibold">Edit Address</h1>
+					<p class="mt-1 text-sm text-gray-600">{{ address.user.firstname ?? 'N/A' }} {{ address.user.lastname ?? 'N/A' }}</p>
+				</div>
 			</div>
 
-			<!-- User Profile Section -->
-			{% if address.user %}
-				<div class="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
-					<h2 class="text-lg font-semibold text-gray-900 mb-4">User Profile</h2>
-					<div class="flex items-center gap-6">
-						<div>
-							<img src="{{ address.user.avatarPath ? asset(address.user.avatarPath) : asset('images/avatar-placeholder.png') }}" class="h-24 w-24 rounded-full bg-gray-200 object-cover" alt="{{ address.user.firstname }} {{ address.user.lastname }}">
-						</div>
-						<div class="space-y-2">
+			<div class="rounded-2xl border bg-white overflow-hidden p-6">
+
+				<!-- User Profile Section -->
+				{% if address.user %}
+					<div class="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
+						<h2 class="text-lg font-semibold text-gray-900 mb-4">User Profile</h2>
+						<div class="flex items-center gap-6">
 							<div>
-								<dt class="text-sm font-medium text-gray-500">Name</dt>
-								<dd class="text-sm text-gray-900">{{ address.user.firstname ?? 'N/A' }}
-									{{ address.user.lastname ?? 'N/A' }}</dd>
+								<img src="{{ address.user.avatarPath ? asset(address.user.avatarPath) : asset('images/avatar-placeholder.png') }}" class="h-24 w-24 rounded-full bg-gray-200 object-cover" alt="{{ address.user.firstname }} {{ address.user.lastname }}">
 							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Email</dt>
-								<dd class="text-sm text-gray-900">{{ address.user.email }}</dd>
+							<div class="space-y-2">
+								<div>
+									<dt class="text-sm font-medium text-gray-500">Name</dt>
+									<dd class="text-sm text-gray-900">{{ address.user.firstname ?? 'N/A' }} {{ address.user.lastname ?? 'N/A' }}</dd>
+								</div>
+								<div>
+									<dt class="text-sm font-medium text-gray-500">Email</dt>
+									<dd class="text-sm text-gray-900">{{ address.user.email }}</dd>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			{% endif %}
+				{% endif %}
 
-			{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+				{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
 				<div>
 					{{ form_label(form.phone) }}
@@ -88,7 +89,8 @@
 					Cancel
 				</a>
 			</div>
-			{{ form_end(form) }}
+				{{ form_end(form) }}
+			</div>
 		</div>
 	</div>
 {% endblock %}
