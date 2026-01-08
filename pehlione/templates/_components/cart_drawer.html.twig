@@ -9,7 +9,7 @@
 		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
 	</svg>
 	{% if cart_count > 0 %}
-		<span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-indigo-600 rounded-full">{{ cart_count }}</span>
+		<span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-indigo-600 rounded-full" data-count="{{ cart_count }}">{{ cart_count }}</span>
 	{% endif %}
 </button>
 
@@ -101,22 +101,23 @@
 						<p class="mt-0.5 text-sm text-gray-500">Kargo ve vergiler checkout'ta hesaplanacaktır.</p>
 
 						<div class="mt-6">
-							<a href="{{ path('cart_show') }}" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"></a>
+							<a href="{{ path('cart_show') }}" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">
+								Sepete Git
+							</a>
+
+							<div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+								<p>
+									veya
+									<a href="{{ path('app_product_index') }}" command="close" commandfor="drawer" class="font-medium text-indigo-600 hover:text-indigo-500">
+										Alışverişe devam et
+										<span aria-hidden="true">→</span>
+									</a>
+								</p>
+							</div>
 						</div>
 
-						<div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-							<p>
-								veya
-								<a href="{{ path('app_product_index') }}" command="close" commandfor="drawer" class="font-medium text-indigo-600 hover:text-indigo-500">
-									Alışverişe devam et
-									<span aria-hidden="true">→</span>
-								</a>
-							</p>
-						</div>
 					</div>
-
-				</div>
-			</el-dialog-panel>
-		</div>
-	</dialog>
-</el-dialog>
+				</el-dialog-panel>
+			</div>
+		</dialog>
+	</el-dialog>

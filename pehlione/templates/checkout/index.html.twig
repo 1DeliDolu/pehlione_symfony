@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout - Pehlione
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white">
+		<div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+			<h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Checkout</h1>
+
+			<form
+				method="post" action="{{ path('checkout_process') }}" class="grid grid-cols-1 gap-12 lg:grid-cols-3">
+				<!-- Shipping Address -->
+				<div class="lg:col-span-2">
+					<div class="space-y-6 border-b border-gray-200 pb-8">
+						<div>
+							<h2 class="text-lg font-semibold text-gray-900 mb-4">Shipping Address</h2>
+							{% if app.user.address %}
+								<div class="rounded-lg border border-gray-200 p-4 bg-gray-50">
+									<p class="font-medium text-gray-900">
+										{{ app.user.address.firstName }}
+										{{ app.user.address.lastName }}
+									</p>
+									<p class="text-sm text-gray-600 mt-1">
+										{{ app.user.address.strasse }}
+										{{ app.user.address.hausnummer }}
+									</p>
+									<p class="text-sm text-gray-600">
+										{{ app.user.address.postalCode }}
+										{{ app.user.address.city }}
+									</p>
+									<p class="text-sm text-gray-600">
+										{{ app.user.address.region }},
+										{{ app.user.address.countryCode }}
+									</p>
+									<p class="text-sm text-gray-600 mt-2">
+										{{ app.user.address.phone }}
+									</p>
+									<a href="{{ path('app_account_address') }}" class="mt-4 inline-block text-sm font-medium text-indigo-600 hover:text-indigo-700">
+										Change address
+									</a>
+								</div>
+							{% else %}
+								<div class="rounded-lg border border-red-200 bg-red-50 p-4 mb-4">
+									<p class="text-sm text-red-800">
+										Please add a shipping address to your account before proceeding.
+									</p>
+								</div>
+								<a href="{{ path('app_account_address') }}" class="inline-flex items-center justify-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white hover:bg-indigo-700">
+									Add Address
+								</a>
+							{% endif %}
+						</div>
+
+						<div>
+							<h2 class="text-lg font-semibold text-gray-900 mb-4">Shipping Method</h2>
+							<div class="space-y-3">
+								<label class="flex items-center">
+									<input type="radio" name="shipping" value="standard" checked class="rounded border-gray-300">
+									<span class="ml-3 text-sm text-gray-700">
+										Standard Shipping (5-7 business days) - $5.00
+									</span>
+								</label>
+								<label class="flex items-center">
+									<input type="radio" name="shipping" value="express" class="rounded border-gray-300">
+									<span class="ml-3 text-sm text-gray-700">
+										Express Shipping (2-3 business days) - $15.00
+									</span>
+								</label>
+							</div>
+						</div>
+
+						<div>
+							<h2 class="text-lg font-semibold text-gray-900 mb-4">Payment Method</h2>
+							<div class="space-y-3">
+								<label class="flex items-center">
+									<input type="radio" name="payment" value="card" checked class="rounded border-gray-300">
+									<span class="ml-3 text-sm text-gray-700">
+										Credit Card
+									</span>
+								</label>
+								<label class="flex items-center">
+									<input type="radio" name="payment" value="paypal" class="rounded border-gray-300">
+									<span class="ml-3 text-sm text-gray-700">
+										PayPal
+									</span>
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="mt-8">
+						<label class="flex items-center">
+							<input type="checkbox" name="agree_terms" required class="rounded border-gray-300">
+							<span class="ml-3 text-sm text-gray-700">
+								I agree to the
+								<a href="#" class="text-indigo-600 hover:text-indigo-700">Terms and Conditions</a>
+								and
+								<a href="#" class="text-indigo-600 hover:text-indigo-700">Privacy Policy</a>
+							</span>
+						</label>
+					</div>
+				</div>
+
+				<!-- Order Summary -->
+				<div class="lg:col-span-1">
+					<div class="rounded-lg border border-gray-200 p-6 bg-white sticky top-8">
+						<h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2>
+
+						<div class="space-y-4 border-b border-gray-200 pb-6">
+							{% set summary = cart_summary() %}
+							{% set lines = summary.lines %}
+							{% set subtotal = summary.totalAmount %}
+
+							{% if lines is empty %}
+								<p class="text-sm text-gray-600">Your cart is empty</p>
+							{% else %}
+								{% for line in lines %}
+									<div class="flex justify-between text-sm">
+										<span class="text-gray-600">{{ line.product.name }}
+											×
+											{{ line.qty }}</span>
+										<span class="font-medium text-gray-900">${{ (line.lineTotal / 100)|number_format(2) }}</span>
+									</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+
+						<div class="space-y-4 border-b border-gray-200 py-6">
+							<div class="flex justify-between text-sm text-gray-600">
+								<span>Subtotal</span>
+								<span>${{ (subtotal / 100)|number_format(2) }}</span>
+							</div>
+
+							<div class="flex justify-between text-sm text-gray-600">
+								<span>Shipping</span>
+								<span>$5.00</span>
+							</div>
+
+							<div class="flex justify-between text-sm text-gray-600">
+								<span>Tax</span>
+								<span>${{ ((subtotal / 100) * 0.08)|number_format(2) }}</span>
+							</div>
+						</div>
+
+						<div class="flex justify-between items-center pt-6 pb-6 border-b border-gray-200">
+							<span class="text-lg font-semibold text-gray-900">Order Total</span>
+							<span class="text-lg font-semibold text-gray-900">
+								${{ ((subtotal / 100) + 5 + ((subtotal / 100) * 0.08))|number_format(2) }}
+							</span>
+						</div>
+
+						<button type="submit" class="w-full mt-6 bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition {% if lines is empty %}disabled:opacity-50 disabled:cursor-not-allowed{% endif %}" {% if lines is empty %} disabled {% endif %}>
+							Place Order
+						</button>
+
+						<a href="{{ path('cart_show') }}" class="block mt-4 text-center text-sm font-medium text-indigo-600 hover:text-indigo-700">
+							Back to Cart
+						</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

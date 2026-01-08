@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Address;
+use App\Entity\User;
 use App\Form\AddressType;
 
 #[Route('/account')]
@@ -26,6 +27,7 @@ final class AccountController extends AbstractController
     #[Route('/address', name: 'app_account_address', methods: ['GET', 'POST'])]
     public function address(Request $request, EntityManagerInterface $entityManager): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         $address = $user->getAddress();
         $isNew = false;
