@@ -1,0 +1,101 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:15
+                env:
+                    POSTGRES_DB: symfony
+                    POSTGRES_USER: symfony
+                    POSTGRES_PASSWORD: symfony
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -U symfony -d symfony"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        env:
+            APP_ENV: test
+            APP_SECRET: ${{ secrets.APP_SECRET }}
+            DATABASE_URL: postgresql://symfony:symfony@postgres:5432/symfony
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v4
+              with:
+                  php-version: "8.2"
+                  coverage: none
+                  extensions: mbstring, intl, xml, pdo_mysql, pdo_pgsql
+
+            - name: Validate composer.json
+              run: composer validate --strict || true
+
+            - name: Cache Composer dependencies
+              uses: actions/cache@v4
+              with:
+                  path: ~/.composer/cache
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
+
+            - name: Install Composer dependencies
+              run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+              working-directory: pehlione
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+
+            - name: Cache npm
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.npm
+                      pehlione/node_modules
+                  key: ${{ runner.os }}-npm-${{ hashFiles('pehlione/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-npm-
+
+            - name: Install Node dependencies
+              working-directory: pehlione
+              run: |
+                  if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+            - name: Build frontend assets
+              working-directory: pehlione
+              run: npm run build || true
+
+            - name: Wait for Postgres
+              run: |
+                  for i in {1..30}; do
+                    pg_isready -h postgres -p 5432 -U symfony && break || sleep 1;
+                  done
+
+            - name: Run Doctrine migrations (optional)
+              working-directory: pehlione
+              run: php bin/console doctrine:migrations:migrate --no-interaction || true
+
+            - name: Run PHPUnit
+              working-directory: pehlione
+              run: vendor/bin/phpunit --configuration phpunit.dist.xml --no-coverage
+
+            - name: Upload PHPUnit results (if available)
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: phpunit-results
+                  path: pehlione/build/logs || pehlione/phpunit.xml || ''
